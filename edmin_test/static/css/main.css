@@ -1,8 +1,0 @@
-table.cinemas-list {
-    border-collapse: collapse;
-    border-spacing: 0;
-}
-table.cinemas-list td,
-table.cinemas-list th  {
-    border: #000000 1px solid;    
-}
