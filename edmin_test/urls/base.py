@@ -8,5 +8,6 @@ admin.autodiscover()
 urlpatterns = patterns('',
     url(r'^$', index, name='index'),
     url(r'^cinema/add$', cinema_add, name='cinema-add'),
+    url(r'^cinema/(?P<cinema_id>\d+)/delete$', cinema_delete, name='cinema-delete'),
     # url(r'^admin/', include(admin.site.urls)),
 )

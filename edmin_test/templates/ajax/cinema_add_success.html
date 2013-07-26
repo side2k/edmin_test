@@ -1,1 +1,8 @@
-Кинотеатр успешно добавлен!
+<p>Кинотеатр успешно добавлен!</p>
+<script>
+    $(function(){
+        $("#cinema-add-dlg").on("hidden", function(){
+            window.location = "{% url 'index' %}";
+        });
+    });    
+</script>

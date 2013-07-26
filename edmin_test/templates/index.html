@@ -16,11 +16,21 @@
         <tr>
             <th>Кинотеатр</th>
             <th>Адрес</th>
+            <th>
+                <button class="btn btn-danger">
+                    <i class="icon-remove icon-white"></i>
+                </button>
+            </th>
         </tr>
         {% for cinema in cinemas %}
             <tr>
                 <td>{{ cinema.name }}</td>
                 <td>{{ cinema.address }}</td>
+                <td>
+                    <button class="btn btn-danger cinema-delete" data-cinema="{{ cinema.id }}">
+                        <i class="icon-remove icon-white"></i>
+                    </button>
+                </td>
             </tr>
         {% endfor %}
     </table>
@@ -30,8 +40,15 @@
             <h3>Добавление кинотеатра</h3>
         </div>
         <div class="modal-body">
-            <p>One fine body…</p>
         </div>        
     </div>
+    <div class="modal hide fade" id="cinema-delete-dlg">
+        <div class="modal-header">
+            <h3>Удаление кинотеатра</h3>
+        </div>
+        <div class="modal-body">
+        </div>        
+    </div>
+
 </body>
 </html>
