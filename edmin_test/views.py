@@ -12,6 +12,11 @@ def index(request):
 def cinema_add(request):
     if request.method == "POST":
         form = CinemaForm(request.POST)
+        if form.is_valid():
+            return render_to_response('ajax/cinema_add_success.html',
+                {},
+                context_instance=RequestContext(request))
+
     else:
         form = CinemaForm()
 

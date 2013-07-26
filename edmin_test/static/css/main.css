@@ -1,3 +1,7 @@
 .cinema-add-form textarea {
     width: 90% !important;
 }
+
+form .errorlist {
+    color: red;
+}

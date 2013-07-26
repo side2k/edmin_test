@@ -1,15 +1,36 @@
-<form class="cinema-add-form" target="{% url "cinema-add" %}" method="POST">
+<form class="cinema-add-form" action="{% url 'cinema-add' %}" method="POST">
+    {% csrf_token %}
     <fieldset>
         <label>
             {{ form.name.label }}<br />
-            <input type="text" placeholder="Искра" />
+            {% if form.name.errors %}
+                {{ form.name.errors }}
+            {% endif %}
+            <input type="text" name="name" placeholder="Искра" value="{{ form.name.value|default:"" }}"/>
         </label>
         
         <label>{{ form.address.label }}
-            <textarea name="address" placeholder="ул. Калинина д.1"></textarea>
+            {% if form.address.errors %}
+                {{ form.address.errors }}
+            {% endif %}
+            <textarea name="address" placeholder="ул. Калинина д.1">{{ form.address.value|default:"" }}</textarea>
         </label>
-
-        <a href="#" class="btn" data-dismiss="modal">Отмена</a>
-        <input type="submit" class="btn btn-primary" value="Добавить">
+        <button type="submit" class="btn btn-primary cinema-add">Добавить</button>
+        <a href="#" class="btn" data-dismiss="modal">Отмена</a>        
     </fieldset>
 </form>
+<script>
+    $(function(){
+        console.log("hello ", new Date());
+        $(".cinema-add-form").ajaxForm({
+            'success': 
+                function(response){
+                    $("#cinema-add-dlg .modal-body").html(response);
+                },
+            'error': 
+                function() {
+                    $("#cinema-add-dlg .modal-body").html("Ошибка!");
+                }
+        });
+    });
+</script>
