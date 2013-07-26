@@ -1,1 +1,26 @@
-Превед медвед
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Тестовое задание</title>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/bootstrap-responsive.css" />
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/main.css" />
+
+</head>
+<body>
+    <table class="cinemas-list">
+        <tr>
+            <th>Кинотеатр</th>
+            <th>Адрес</th>
+        </tr>
+        {% for cinema in cinemas %}
+            <tr>
+                <td>{{ cinema.name }}</td>
+                <td>{{ cinema.address }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
