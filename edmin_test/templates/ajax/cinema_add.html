@@ -1,0 +1,15 @@
+<form class="cinema-add-form" target="{% url "cinema-add" %}" method="POST">
+    <fieldset>
+        <label>
+            {{ form.name.label }}<br />
+            <input type="text" placeholder="Искра" />
+        </label>
+        
+        <label>{{ form.address.label }}
+            <textarea name="address" placeholder="ул. Калинина д.1"></textarea>
+        </label>
+
+        <a href="#" class="btn" data-dismiss="modal">Отмена</a>
+        <input type="submit" class="btn btn-primary" value="Добавить">
+    </fieldset>
+</form>
