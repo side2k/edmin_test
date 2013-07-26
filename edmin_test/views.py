@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 
 from edmin_test.forms import CinemaForm, CinemaDeleteForm
@@ -39,3 +39,9 @@ def cinema_delete(request, cinema_id):
     return render_to_response('ajax/cinema_delete.html',
         {'cinema_id': cinema_id},
         context_instance=RequestContext(request))    
+
+def cinema(request, cinema_id):
+    cinema = get_object_or_404(Cinema, id=cinema_id)
+    return render_to_response('cinema.html',
+        {'cinema': cinema},
+        context_instance=RequestContext(request))  
