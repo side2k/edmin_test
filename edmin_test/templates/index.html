@@ -39,7 +39,10 @@
             </tr>
         {% endfor %}
     </table>
-    <a href="javascript:void(0)" class="btn btn-primary cinema-add">Добавить кинотеатр</a>
+    <a href="javascript:void(0)" class="btn btn-primary cinema-add" 
+        onclick="cinemaAddDlg('{% url 'cinema-add' %}')">
+        Добавить кинотеатр
+    </a>
     <div class="modal hide fade" id="cinema-add-dlg">
         <div class="modal-header">
             <h3>Добавление кинотеатра</h3>
@@ -47,6 +50,13 @@
         <div class="modal-body">
         </div>        
     </div>
+    <div class="modal hide fade" id="cinema-edit-dlg">
+        <div class="modal-header">
+            <h3>Редактирование кинотеатра</h3>
+        </div>
+        <div class="modal-body">
+        </div>        
+    </div>    
     <div class="modal hide fade" id="cinema-delete-dlg">
         <div class="modal-header">
             <h3>Удаление кинотеатра</h3>
