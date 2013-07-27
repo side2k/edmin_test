@@ -3,24 +3,36 @@
     <h1>Кинотеатры</h1>
     <table class="table table-bordered table-hover cinemas-list">
         <tr>
+            <th class="column-edit">
+                <button class="btn">
+                    <i class="icon-edit"></i>
+                    Редактировать
+                </button>
+            </th>
             <th>Название</th>
             <th>Адрес</th>
-            <th>
+            <th class="column-delete">
                 <button class="btn btn-danger">
                     <i class="icon-remove icon-white"></i>
+                    Удалить
                 </button>
             </th>
         </tr>
         {% for cinema in cinemas %}
             <tr>
+                <td class="column-edit">
+                    <button class="btn btn-mini">
+                        <i class="icon-edit"></i>
+                    </button>                
+                </td>
                 <td>
                     <a href="{% url 'cinema' cinema_id=cinema.id %}">
                         {{ cinema.name }}
                     </a>
                 </td>
                 <td>{{ cinema.address }}</td>
-                <td>
-                    <button class="btn btn-danger cinema-delete" data-cinema="{{ cinema.id }}">
+                <td class="column-delete">
+                    <button class="btn btn-mini btn-danger cinema-delete" data-cinema="{{ cinema.id }}">
                         <i class="icon-remove icon-white"></i>
                     </button>
                 </td>

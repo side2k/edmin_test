@@ -9,3 +9,9 @@ form .errorlist {
 form input[type=text] {
     width: 90%;
 }
+
+.cinemas-list .column-edit, 
+.cinemas-list .column-delete {
+    text-align: center;
+    width: 150px;
+}
