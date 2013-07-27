@@ -31,7 +31,8 @@ var CINEMA_ID = {{ cinema.id }};
             </td>
             <td>{{ presentation.time|time:"H:i" }}</td>
             <td>
-                <button class="btn btn-danger presentation-delete" data-presentation="{{ presentation.id }}">
+                <button class="btn btn-danger presentation-delete" data-presentation="{{ presentation.id }}" 
+                    onclick="presentationDeleteDlg('{% url 'presentation-delete' cinema.id presentations_date presentation.id %}'); return false;">
                     <i class="icon-remove icon-white"></i>
                 </button>
             </td>

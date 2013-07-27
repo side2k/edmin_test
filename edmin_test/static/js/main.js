@@ -1,11 +1,15 @@
 function presentationAddDlg(addUrl) {
-    var cinema_id = $(this).attr('data-cinema');
-    var presentation_date = $(this).attr('data-date');
     $("#presentation-add-dlg").modal({
         'remote': addUrl
     });
 }
-    
+
+function presentationDeleteDlg(deleteUrl) {
+    $("#presentation-delete-dlg").modal({
+        'remote': deleteUrl
+    });    
+}
+
 $(function(){    
     // cinemas
     $(".cinema-add").click(function(){
@@ -30,6 +34,4 @@ $(function(){
         var date = $(".presentations-date input").val();
         window.location = "/cinema/" + CINEMA_ID + "/" + date;
     });
-
-
 });

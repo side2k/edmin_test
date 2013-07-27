@@ -11,5 +11,8 @@ urlpatterns = patterns('',
     url(r'^cinema/(?P<cinema_id>\d+)/delete$', cinema_delete, name='cinema-delete'),
     url(r'^cinema/(?P<cinema_id>\d+)/(?P<presentations_date>[^/]+)/add$', presentation_add, name='presentation-add'),
     url(r'^cinema/(?P<cinema_id>\d+)/(?P<presentations_date>[^/]+)?$', cinema, name='cinema'),
+    url(r'^cinema/(?P<cinema_id>\d+)/(?P<presentations_date>[^/]+)/(?P<presentation_id>\d+)/delete$', 
+        presentation_delete, 
+        name='presentation-delete'),
     # url(r'^admin/', include(admin.site.urls)),
 )

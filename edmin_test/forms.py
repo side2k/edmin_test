@@ -8,7 +8,7 @@ class CinemaForm(forms.ModelForm):
     class Meta:
         model = Cinema
 
-class CinemaDeleteForm(forms.Form):
+class ConfirmationForm(forms.Form):
     confirmed = forms.BooleanField(initial=False, required=True)
 
 class PresentationForm(forms.ModelForm):

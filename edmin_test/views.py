@@ -5,8 +5,8 @@ from django.http import HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 
-from edmin_test.forms import CinemaForm, CinemaDeleteForm, PresentationForm
-from edmin_test.models import Cinema
+from edmin_test.forms import CinemaForm, ConfirmationForm, PresentationForm
+from edmin_test.models import Cinema, Presentation
 
 def index(request):
     return render_to_response('index.html',
@@ -30,8 +30,8 @@ def cinema_add(request):
 
 def cinema_delete(request, cinema_id):
     if request.method == "POST":
-        form = CinemaDeleteForm(request.POST)
-        if form.is_valid():
+        form = ConfirmationForm(request.POST)
+        if form.is_valid() and form.cleaned_data['confirmed']:
             cinema = Cinema.objects.get(id=cinema_id)
             cinema.delete()
             return render_to_response('ajax/cinema_delete_success.html',
@@ -87,3 +87,23 @@ def presentation_add(request, cinema_id, presentations_date):
             'presentations_date': presentations_date
         },
         context_instance=RequestContext(request))
+
+def presentation_delete(request, cinema_id, presentations_date, presentation_id):
+    context = {
+        'cinema_id': cinema_id,
+        'presentations_date': presentations_date,
+        'presentation_id': presentation_id
+    }
+    if request.method == "POST":
+        form = ConfirmationForm(request.POST)
+        if form.is_valid() and form.cleaned_data['confirmed']:
+            presentation = get_object_or_404(Presentation, id=presentation_id, cinema__id=cinema_id)
+            presentation.delete()
+            return render_to_response('ajax/presentation_delete_success.html', 
+                context,
+                context_instance=RequestContext(request))
+        else:
+            print form.errors
+    return render_to_response('ajax/presentation_delete.html',
+        context,
+        context_instance=RequestContext(request))     
