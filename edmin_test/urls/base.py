@@ -8,6 +8,7 @@ admin.autodiscover()
 urlpatterns = patterns('',
     url(r'^$', index, name='index'),
     url(r'^cinema/add$', cinema_add, name='cinema-add'),
+    url(r'^cinema/(?P<cinema_id>\d+)/edit$', cinema_edit, name='cinema-edit'),
     url(r'^cinema/(?P<cinema_id>\d+)/delete$', cinema_delete, name='cinema-delete'),
     url(r'^cinema/(?P<cinema_id>\d+)/(?P<presentations_date>[^/]+)/add$', presentation_add, name='presentation-add'),
     url(r'^cinema/(?P<cinema_id>\d+)/(?P<presentations_date>[^/]+)?$', cinema, name='cinema'),

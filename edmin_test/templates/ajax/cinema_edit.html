@@ -1,4 +1,10 @@
-<form class="cinema-add-form" action="{% url 'cinema-add' %}" method="POST">
+<form class="cinema-{% if form.instance.id %}edit{% else %}add{% endif %}-form" 
+    {% if form.instance.id %}
+        action="{% url 'cinema-edit' form.instance.id %}" 
+    {% else %}
+        action="{% url 'cinema-add' %}" 
+    {% endif %}
+    method="POST">
     {% csrf_token %}
     <fieldset>
         <label>
@@ -15,20 +21,24 @@
             {% endif %}
             <textarea name="address" placeholder="ул. Калинина д.1">{{ form.address.value|default:"" }}</textarea>
         </label>
-        <button type="submit" class="btn btn-primary cinema-add">Добавить</button>
+        <button type="submit" class="btn btn-primary cinema-add">
+            {% if form.instance.id %}Сохранить{% else %}Добавить{% endif %}
+        </button>
         <a href="#" class="btn" data-dismiss="modal">Отмена</a>        
     </fieldset>
 </form>
 <script>
     $(function(){
-        $(".cinema-add-form").ajaxForm({
+        var action = '{% if form.instance.id %}edit{% else %}add{% endif %}';
+        $modal_body = $("#cinema-" + action + "-dlg .modal-body");
+        $(".cinema-" + action + "-form").ajaxForm({            
             'success': 
                 function(response){
-                    $("#cinema-add-dlg .modal-body").html(response);
+                    $modal_body.html(response);
                 },
             'error': 
                 function() {
-                    $("#cinema-add-dlg .modal-body").html("Ошибка!");
+                    $modal_body.html("Ошибка!");
                 }
         });
     });

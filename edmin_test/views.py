@@ -24,7 +24,23 @@ def cinema_add(request):
     else:
         form = CinemaForm()
 
-    return render_to_response('ajax/cinema_add.html',
+    return render_to_response('ajax/cinema_edit.html',
+        {'form': form},
+        context_instance=RequestContext(request))
+
+def cinema_edit(request, cinema_id):
+    cinema = get_object_or_404(Cinema, id=cinema_id)
+    if request.method == "POST":
+        form = CinemaForm(request.POST, instance=cinema)
+        if form.is_valid():
+            form.save()
+            return render_to_response('ajax/cinema_edit_success.html',
+                {},
+                context_instance=RequestContext(request))    
+    else:
+        form = CinemaForm(instance=cinema)
+
+    return render_to_response('ajax/cinema_edit.html',
         {'form': form},
         context_instance=RequestContext(request))
 

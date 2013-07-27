@@ -1,0 +1,8 @@
+<p>Кинотеатр успешно изменен</p>
+<script>
+    $(function(){
+        $("#cinema-edit-dlg").on("hidden", function(){
+            window.location = "{% url 'index' %}";
+        });
+    });    
+</script>

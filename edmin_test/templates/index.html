@@ -21,7 +21,7 @@
         {% for cinema in cinemas %}
             <tr>
                 <td class="column-edit">
-                    <button class="btn btn-mini">
+                    <button class="btn btn-mini" onclick="cinemaEditDlg('{% url 'cinema-edit' cinema.id %}')">
                         <i class="icon-edit"></i>
                     </button>                
                 </td>
