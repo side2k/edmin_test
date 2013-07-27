@@ -38,7 +38,7 @@ def cinema_delete(request, cinema_id):
                 {},
                 context_instance=RequestContext(request))
         else:
-            print form.errors
+            raise Exception("Form contains errors: %s" % form.errors)
     return render_to_response('ajax/cinema_delete.html',
         {'cinema_id': cinema_id},
         context_instance=RequestContext(request))    
@@ -77,7 +77,7 @@ def presentation_add(request, cinema_id, presentations_date):
                 },
                 context_instance=RequestContext(request))
         else:
-            print form.errors
+            raise Exception("Form contains errors: %s" % form.errors)
     else:
         form = PresentationForm(cinema_id, presentation_date)
 
@@ -102,8 +102,6 @@ def presentation_delete(request, cinema_id, presentations_date, presentation_id)
             return render_to_response('ajax/presentation_delete_success.html', 
                 context,
                 context_instance=RequestContext(request))
-        else:
-            print form.errors
     return render_to_response('ajax/presentation_delete.html',
         context,
         context_instance=RequestContext(request))     
