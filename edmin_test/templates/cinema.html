@@ -1,5 +1,60 @@
 {% extends "base.html" %}
 
 {% block body %}
+<script>
+var CINEMA_ID = {{ cinema.id }};
+</script>
+
+<a href="/" class="btn btn-primary">&lt;&lt; Список кинотеатров</a>
 <h1>Кинотеатр "{{ cinema.name }}"</h1>
+<h3>Сеансы на </h3>
+<div class="input-append date presentations-date" id="dp3" data-date="{{ presentations_date }}" data-date-format="dd-mm-yyyy">
+    <input class="span2" size="16" type="text" value="{{ presentations_date }}" readonly>
+    <span class="add-on"><i class="icon-calendar"></i></span>
+</div>
+
+
+<table class="table table-bordered table-hover presentations-list">
+    <tr>
+        <th>Фильм</th>
+        <th>Время</th>
+        <th>
+            <button class="btn btn-danger">
+                <i class="icon-remove icon-white"></i>
+            </button>
+        </th>
+    </tr>
+    {% for presentation in presentations %}
+        <tr>
+            <td>
+                <a href="{% url 'presentation' presentation_id=presentation.id %}">
+                    {{ presentation.name }}
+                </a>
+            </td>
+            <td>{{ presentation.address }}</td>
+            <td>
+                <button class="btn btn-danger presentation-delete" data-presentation="{{ presentation.id }}">
+                    <i class="icon-remove icon-white"></i>
+                </button>
+            </td>
+        </tr>
+    {% endfor %}
+</table>
+<a href="javascript:void(0)" class="btn btn-primary presentation-add" onclick="presentationAddDlg('{% url 'presentation-add' cinema.id presentations_date %}'); return false;">
+    Добавить сеанс
+</a>
+<div class="modal hide fade" id="presentation-add-dlg">
+    <div class="modal-header">
+        <h3>Добавить сеанс</h3>
+    </div>
+    <div class="modal-body">
+    </div>        
+</div>
+<div class="modal hide fade" id="presentation-delete-dlg">
+    <div class="modal-header">
+        <h3>Удаление сеанса</h3>
+    </div>
+    <div class="modal-body">
+    </div>        
+</div>
 {% endblock %}
