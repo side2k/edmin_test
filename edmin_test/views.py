@@ -1,5 +1,6 @@
 from datetime import date, datetime, timedelta
 
+from django.conf import settings
 from django.http import HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
@@ -42,12 +43,15 @@ def cinema_delete(request, cinema_id):
         {'cinema_id': cinema_id},
         context_instance=RequestContext(request))    
 
+def _get_presentations_date(presentations_date):
+    if not presentations_date:
+        return date.today()
+    else:
+        return datetime.strptime(presentations_date, settings.DATE_FORMAT)
+
 def cinema(request, cinema_id, presentations_date):
     cinema = get_object_or_404(Cinema, id=cinema_id)
-    if not presentations_date:
-        presentations_date = date.today()
-    else:
-        presentations_date = datetime.strptime(presentations_date, '%Y-%m-%d')
+    presentations_date = _get_presentations_date(presentations_date)
     next_day = presentations_date + timedelta(days=1)
 
     presentations = cinema.presentation_set.filter(
@@ -56,21 +60,26 @@ def cinema(request, cinema_id, presentations_date):
 
     return render_to_response('cinema.html', {
             'cinema': cinema,
-            'presentations_date': presentations_date.strftime('%Y-%m-%d'),
+            'presentations_date': presentations_date.strftime(settings.DATE_FORMAT),
             'presentations': presentations
         },
         context_instance=RequestContext(request))  
 
 def presentation_add(request, cinema_id, presentations_date):
+    presentation_date = _get_presentations_date(presentations_date)
     if request.method == "POST":
-        form = PresentationForm(request.POST)
+        form = PresentationForm(cinema_id, presentation_date, request.POST)
         if form.is_valid():
             form.save()
-            return render_to_response('ajax/presentation_add_success.html',
-                {},
+            return render_to_response('ajax/presentation_add_success.html', {
+                    'cinema_id': cinema_id,
+                    'presentations_date': presentations_date
+                },
                 context_instance=RequestContext(request))
+        else:
+            print form.errors
     else:
-        form = PresentationForm()
+        form = PresentationForm(cinema_id, presentation_date)
 
     return render_to_response('ajax/presentation_add.html', {
             'form': form,

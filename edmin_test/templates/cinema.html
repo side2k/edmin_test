@@ -27,11 +27,9 @@ var CINEMA_ID = {{ cinema.id }};
     {% for presentation in presentations %}
         <tr>
             <td>
-                <a href="{% url 'presentation' presentation_id=presentation.id %}">
-                    {{ presentation.name }}
-                </a>
+                {{ presentation.film }}
             </td>
-            <td>{{ presentation.address }}</td>
+            <td>{{ presentation.time|time:"H:i" }}</td>
             <td>
                 <button class="btn btn-danger presentation-delete" data-presentation="{{ presentation.id }}">
                     <i class="icon-remove icon-white"></i>

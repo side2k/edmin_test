@@ -6,7 +6,7 @@
             {% if form.film.errors %}
                 {{ form.film.errors }}
             {% endif %}
-            <input type="text" name="film" placeholder="Название фильма(макс 50 символов)" value="{{ form.film.value|default:"" }}"/>
+            <input type="text" name="film" placeholder="Название фильма" value="{{ form.film.value|default:"" }}"/>
         </label>
         
         <label>
