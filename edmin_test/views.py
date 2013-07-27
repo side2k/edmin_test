@@ -4,7 +4,7 @@ from django.http import HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 
-from edmin_test.forms import CinemaForm, CinemaDeleteForm
+from edmin_test.forms import CinemaForm, CinemaDeleteForm, PresentationForm
 from edmin_test.models import Cinema
 
 def index(request):
@@ -62,4 +62,19 @@ def cinema(request, cinema_id, presentations_date):
         context_instance=RequestContext(request))  
 
 def presentation_add(request, cinema_id, presentations_date):
-    return HttpResponse('presentation dummy add %s %s' % (cinema_id, presentations_date))
+    if request.method == "POST":
+        form = PresentationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return render_to_response('ajax/presentation_add_success.html',
+                {},
+                context_instance=RequestContext(request))
+    else:
+        form = PresentationForm()
+
+    return render_to_response('ajax/presentation_add.html', {
+            'form': form,
+            'cinema_id': cinema_id,
+            'presentations_date': presentations_date
+        },
+        context_instance=RequestContext(request))

@@ -5,3 +5,7 @@
 form .errorlist {
     color: red;
 }
+
+form input[type=text] {
+    width: 90%;
+}
