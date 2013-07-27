@@ -1,0 +1,47 @@
+<form class="presentation-add-form" action="{% url 'presentation-add' cinema_id presentations_date %}" method="POST">
+    {% csrf_token %}
+    <fieldset>
+        <label>
+            {{ form.film.label }}<br />
+            {% if form.film.errors %}
+                {{ form.film.errors }}
+            {% endif %}
+            <input type="text" name="film" placeholder="Название фильма" value="{{ form.film.value|default:"" }}"/>
+        </label>
+        
+        <label>
+            Время:
+            {% if form.time.errors %}
+                {{ form.time.errors }}
+            {% endif %}
+            <div class="input-append bootstrap-timepicker" id="presentation-time">
+                <input type="text" class="input-small" name="time" />
+                <span class="add-on">
+                    <i class="icon-time"></i>
+                </span>
+            </div>
+        </label>
+        <button type="submit" class="btn btn-primary presentation-add">Добавить</button>
+        <a href="#" class="btn" data-dismiss="modal">Отмена</a>        
+    </fieldset>
+</form>
+<script>
+    $(function(){
+        $("#presentation-time input").timepicker({
+            'minuteStep': 1,
+            'template': 'modal',
+            'showSeconds': false,
+            'showMeridian': false
+        });
+        $(".presentation-add-form").ajaxForm({
+            'success': 
+                function(response){
+                    $("#presentation-add-dlg .modal-body").html(response);
+                },
+            'error': 
+                function() {
+                    $("#presentation-add-dlg .modal-body").html("Ошибка!");
+                }
+        });
+    });
+</script>

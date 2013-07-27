@@ -1,0 +1,21 @@
+<p>Вы уверены, что хотите удалить сеанс?</p>
+<form class="presentation-delete-form" action="{% url 'presentation-delete' cinema_id presentations_date presentation_id %}" method="POST">
+    {% csrf_token %}
+    <input type="hidden" name="confirmed" value="true" />
+    <button type="submit" class="btn btn-primary">Да</button>
+    <a href="#" class="btn" data-dismiss="modal">Нет</a>
+</form>
+<script>
+    $(function(){
+        $(".presentation-delete-form").ajaxForm({
+            'success': 
+                function(response){
+                    $("#presentation-delete-dlg .modal-body").html(response);
+                },
+            'error': 
+                function() {
+                    $("#presentation-delete-dlg .modal-body").html("Ошибка!");
+                }
+        });
+    });
+</script>

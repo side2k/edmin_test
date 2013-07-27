@@ -1,0 +1,21 @@
+<p>Вы уверены, что хотите удалить кинотеатр?</p>
+<form class="cinema-delete-form" action="{% url 'cinema-delete' cinema_id %}" method="POST">
+    {% csrf_token %}
+    <input type="hidden" name="confirmed" value="true" />
+    <button type="submit" class="btn btn-primary">Да</button>
+    <a href="#" class="btn" data-dismiss="modal">Нет</a>
+</form>
+<script>
+    $(function(){
+        $(".cinema-delete-form").ajaxForm({
+            'success': 
+                function(response){
+                    $("#cinema-delete-dlg .modal-body").html(response);
+                },
+            'error': 
+                function() {
+                    $("#cinema-delete-dlg .modal-body").html("Ошибка!");
+                }
+        });
+    });
+</script>

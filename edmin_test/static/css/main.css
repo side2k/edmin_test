@@ -1,0 +1,17 @@
+.cinema-add-form textarea {
+    width: 90% !important;
+}
+
+form .errorlist {
+    color: red;
+}
+
+form input[type=text] {
+    width: 90%;
+}
+
+.cinemas-list .column-edit, 
+.cinemas-list .column-delete {
+    text-align: center;
+    width: 150px;
+}
