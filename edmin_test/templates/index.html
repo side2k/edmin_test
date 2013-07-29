@@ -32,7 +32,8 @@
                 </td>
                 <td>{{ cinema.address }}</td>
                 <td class="column-delete">
-                    <button class="btn btn-mini btn-danger cinema-delete" data-cinema="{{ cinema.id }}">
+                    <button class="btn btn-mini btn-danger cinema-delete" data-cinema="{{ cinema.id }}"
+                        onclick="cinemaDeleteDlg('{% url 'cinema-delete' cinema.id %}')">
                         <i class="icon-remove icon-white"></i>
                     </button>
                 </td>
@@ -43,25 +44,100 @@
         onclick="cinemaAddDlg('{% url 'cinema-add' %}')">
         Добавить кинотеатр
     </a>
+
     <div class="modal hide fade" id="cinema-add-dlg">
         <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             <h3>Добавление кинотеатра</h3>
         </div>
-        <div class="modal-body">
+        <div class="modal-body dialog">
+            <form class="cinema-add-form" action="{% url 'cinema-add' %}" method="POST">
+                {% csrf_token %}
+                <fieldset>
+                    <label for="name">
+                        Название:<br />
+                        <ul class="errorlist">
+                        </ul>
+                        <input type="text" name="name" placeholder="Искра" value="" />
+                    </label>
+                    
+                    <label for="address">
+                        Адрес:
+                        <ul class="errorlist">
+                        </ul>
+                        <textarea name="address" placeholder="ул. Калинина д.1">{{ form.address.value|default:"" }}</textarea>
+                    </label>
+                    <button type="submit" class="btn btn-primary cinema-add">
+                        Добавить
+                    </button>
+                    <a href="#" class="btn" data-dismiss="modal">Отмена</a>        
+                </fieldset>
+            </form>       
         </div>        
+        <div class="hide modal-body success">
+            <p>Кинотеатр успешно добавлен!</p>
+        </div>
+        <div class="hide modal-body error">
+            <p>Произошла ошибка при добавлении кинотеатра!</p>
+        </div>
     </div>
+
     <div class="modal hide fade" id="cinema-edit-dlg">
         <div class="modal-header">
-            <h3>Редактирование кинотеатра</h3>
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h3>Изменение кинотеатра</h3>
         </div>
-        <div class="modal-body">
+        <div class="modal-body dialog">
+            <form class="cinema-edit-form" action="" method="POST">
+                {% csrf_token %}
+                <fieldset>
+                    <label for="name">
+                        Название:<br />
+                        <ul class="errorlist">
+                        </ul>
+                        <input type="text" name="name" placeholder="Искра" value="" />
+                    </label>
+                    
+                    <label for="address">
+                        Адрес:
+                        <ul class="errorlist">
+                        </ul>
+                        <textarea name="address" placeholder="ул. Калинина д.1">{{ form.address.value|default:"" }}</textarea>
+                    </label>
+                    <button type="submit" class="btn btn-primary cinema-edit">
+                        Сохранить
+                    </button>
+                    <a href="#" class="btn" data-dismiss="modal">Отмена</a>        
+                </fieldset>
+            </form>       
         </div>        
-    </div>    
+        <div class="hide modal-body success">
+            <p>Кинотеатр успешно изменен!</p>
+        </div>
+        <div class="hide modal-body error">
+            <p>Произошла ошибка при сохранении кинотеатра!</p>
+        </div>
+    </div>
+
     <div class="modal hide fade" id="cinema-delete-dlg">
         <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             <h3>Удаление кинотеатра</h3>
         </div>
-        <div class="modal-body">
-        </div>        
+        <div class="modal-body dialog">
+            <p>Вы уверены, что хотите удалить кинотеатр?</p>
+            <form class="cinema-delete-form" action="" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="confirmed" value="true" />
+                <button type="submit" class="btn btn-primary">Да</button>
+                <a href="#" class="btn" data-dismiss="modal">Нет</a>
+            </form>        
+        </div>     
+        <div class="hide modal-body success">
+            <p>Кинотеатр успешно удален!</p>
+        </div>
+        <div class="hide modal-body error">
+            <p>Произошла ошибка при удалении кинотеатра!</p>
+        </div>           
     </div>
 {% endblock %}
