@@ -1,9 +1,11 @@
 from datetime import date, datetime, timedelta
 
 from django.conf import settings
+from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
+from django.utils import simplejson
 
 from edmin_test.forms import CinemaForm, ConfirmationForm, PresentationForm
 from edmin_test.models import Cinema, Presentation
@@ -13,20 +15,30 @@ def index(request):
         {'cinemas': Cinema.objects.all()},
         context_instance=RequestContext(request))
 
+def _json_response(data):
+    return HttpResponse(simplejson.dumps(data), content_type='application/json')
+
+def _success(data=None):
+    result = {}
+    if data and type(data) == dict:
+        result.update(data)
+    result['success'] = True
+    return _json_response(result)
+
+def _form_errors(form):
+    result = {'errors':form.errors}
+    result['success'] = False;
+    return _json_response(result)
+
 def cinema_add(request):
     if request.method == "POST":
         form = CinemaForm(request.POST)
         if form.is_valid():
-            form.save()
-            return render_to_response('ajax/cinema_add_success.html',
-                {},
-                context_instance=RequestContext(request))
-    else:
-        form = CinemaForm()
-
-    return render_to_response('ajax/cinema_edit.html',
-        {'form': form},
-        context_instance=RequestContext(request))
+            instance = form.save()
+            return _success({'id': instance.id})
+        else:
+            return _form_errors(form)
+    raise PermissionDenied
 
 def cinema_edit(request, cinema_id):
     cinema = get_object_or_404(Cinema, id=cinema_id)

@@ -47,8 +47,36 @@
         <div class="modal-header">
             <h3>Добавление кинотеатра</h3>
         </div>
-        <div class="modal-body">
+        <div class="modal-body dialog">
+            <form class="cinema-add-form" action="{% url 'cinema-add' %}" method="POST">
+                {% csrf_token %}
+                <fieldset>
+                    <label for="name">
+                        Название:<br />
+                        <ul class="errorlist">
+                        </ul>
+                        <input type="text" name="name" placeholder="Искра" value="" />
+                    </label>
+                    
+                    <label for="address">
+                        Адрес:
+                        <ul class="errorlist">
+                        </ul>
+                        <textarea name="address" placeholder="ул. Калинина д.1">{{ form.address.value|default:"" }}</textarea>
+                    </label>
+                    <button type="submit" class="btn btn-primary cinema-add">
+                        Добавить
+                    </button>
+                    <a href="#" class="btn" data-dismiss="modal">Отмена</a>        
+                </fieldset>
+            </form>       
         </div>        
+        <div class="hide modal-body success">
+            <p>Кинотеатр успешно добавлен!</p>
+        </div>
+        <div class="hide modal-body error">
+            <p>Произошла ошибка при добавлении кинотеатра!</p>
+        </div>
     </div>
     <div class="modal hide fade" id="cinema-edit-dlg">
         <div class="modal-header">
