@@ -30,6 +30,12 @@ def _form_errors(form):
     result['success'] = False;
     return _json_response(result)
 
+def _form_values(form):
+    values = {}
+    for field in form:
+        values[field.name] = field.value()
+    return _json_response({'values':values})
+
 def cinema_add(request):
     if request.method == "POST":
         form = CinemaForm(request.POST)
@@ -45,16 +51,12 @@ def cinema_edit(request, cinema_id):
     if request.method == "POST":
         form = CinemaForm(request.POST, instance=cinema)
         if form.is_valid():
-            form.save()
-            return render_to_response('ajax/cinema_edit_success.html',
-                {},
-                context_instance=RequestContext(request))    
-    else:
-        form = CinemaForm(instance=cinema)
-
-    return render_to_response('ajax/cinema_edit.html',
-        {'form': form},
-        context_instance=RequestContext(request))
+            instance = form.save()
+            return _success({'id': instance.id})
+        else:
+            return _form_errors(form)
+    form = CinemaForm(instance=cinema)
+    return _form_values(form)
 
 def cinema_delete(request, cinema_id):
     if request.method == "POST":
@@ -62,14 +64,10 @@ def cinema_delete(request, cinema_id):
         if form.is_valid() and form.cleaned_data['confirmed']:
             cinema = Cinema.objects.get(id=cinema_id)
             cinema.delete()
-            return render_to_response('ajax/cinema_delete_success.html',
-                {},
-                context_instance=RequestContext(request))
+            return _success()
         else:
-            raise Exception("Form contains errors: %s" % form.errors)
-    return render_to_response('ajax/cinema_delete.html',
-        {'cinema_id': cinema_id},
-        context_instance=RequestContext(request))    
+            return _form_errors(form)
+    raise PermissionDenied    
 
 def _get_presentations_date(presentations_date):
     if not presentations_date:

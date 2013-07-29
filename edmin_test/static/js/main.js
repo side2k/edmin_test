@@ -1,17 +1,37 @@
-function cinemaAddDlg() {
-    var $dlg = $("#cinema-add-dlg");
+function showDialog($dlg, options) {
     $dlg.find("form").find("input[type=text], textarea").val("");
     $dlg.find("form label .errorlist").html("");
     $dlg.find(".modal-body.dialog").show();
     $dlg.find(".modal-body.success").hide();
     $dlg.find(".modal-body.error").hide();    
-    $dlg.modal();
+    if (options) {
+        if (options.action) {
+            $dlg.find("form").attr("action", options.action);
+        }
+    }
+    if (options && options.action && options.request_values) {
+        $.getJSON(options.action, function(values){
+            $.each(values.values, function(field, value){
+                $label = $dlg.find("form label[for=" + field + "]") 
+                $input = $label.find("input, textarea").val(value);
+            });
+            $dlg.modal();
+        });
+    } else {
+        $dlg.modal();
+    }    
 }
 
-function cinemaEditDlg(editUrl) {
-    $("#cinema-edit-dlg").modal({
-        'remote': editUrl
-    });
+function cinemaAddDlg() {
+    showDialog($("#cinema-add-dlg"));
+}
+
+function cinemaEditDlg(editURL) {
+    showDialog($("#cinema-edit-dlg"), {'action': editURL, 'request_values':true});
+}
+
+function cinemaDeleteDlg(deleteURL) {
+    showDialog($("#cinema-delete-dlg"), {'action': deleteURL});
 }
 
 function presentationAddDlg(addUrl) {
@@ -41,6 +61,9 @@ function prepareDlg($dlg) {
                 if (response.success) {
                     $dlg.find(".modal-body.dialog").hide();
                     $dlg.find(".modal-body.success").show();
+                    $dlg.on("hidden", function(){
+                        window.location.href = window.location.href;
+                    });                    
                 } else {
                     $dlg.find("form ul.errorlist").html("");
                     $.each(response.errors, function(field, error){
@@ -60,6 +83,8 @@ function prepareDlg($dlg) {
 $(function(){    
     // cinemas
     prepareDlg($("#cinema-add-dlg"));
+    prepareDlg($("#cinema-edit-dlg"));
+    prepareDlg($("#cinema-delete-dlg"));
 
 
     $("button.cinema-delete").click(function(){
