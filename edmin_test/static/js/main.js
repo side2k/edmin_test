@@ -34,16 +34,12 @@ function cinemaDeleteDlg(deleteURL) {
     showDialog($("#cinema-delete-dlg"), {'action': deleteURL});
 }
 
-function presentationAddDlg(addUrl) {
-    $("#presentation-add-dlg").modal({
-        'remote': addUrl
-    });
+function presentationAddDlg() {
+    showDialog($("#presentation-add-dlg"));
 }
 
-function presentationDeleteDlg(deleteUrl) {
-    $("#presentation-delete-dlg").modal({
-        'remote': deleteUrl
-    });    
+function presentationDeleteDlg(deleteURL) {
+    showDialog($("#presentation-delete-dlg"), {'action': deleteURL});
 }
 
 function showFieldError($dlg, field, error) {
@@ -86,15 +82,10 @@ $(function(){
     prepareDlg($("#cinema-edit-dlg"));
     prepareDlg($("#cinema-delete-dlg"));
 
-
-    $("button.cinema-delete").click(function(){
-        var cinema_id = $(this).attr('data-cinema');
-        $("#cinema-delete-dlg").modal({
-            'remote': '/cinema/' + cinema_id + '/delete'
-        });
-    });
-
     // presentations
+    prepareDlg($("#presentation-add-dlg"));
+    prepareDlg($("#presentation-edit-dlg"));
+    prepareDlg($("#presentation-delete-dlg"));
 
     $(".presentations-date").datepicker({
         'format': 'yyyy-mm-dd'
