@@ -42,18 +42,67 @@ var CINEMA_ID = {{ cinema.id }};
 <a href="javascript:void(0)" class="btn btn-primary presentation-add" onclick="presentationAddDlg('{% url 'presentation-add' cinema.id presentations_date %}'); return false;">
     Добавить сеанс
 </a>
+
 <div class="modal hide fade" id="presentation-add-dlg">
     <div class="modal-header">
-        <h3>Добавить сеанс</h3>
+        <h3>Добавление сеанса</h3>
     </div>
-    <div class="modal-body">
+    <div class="modal-body dialog">
+        <form class="presentation-add-form" action="{% url 'presentation-add' cinema.id presentations_date %}" method="POST">
+            {% csrf_token %}
+            <fieldset>
+                <label for="film">
+                    Фильм
+                    <ul class="errorlist">
+                    </ul>                    
+                    <input type="text" name="film" placeholder="Название фильма" value="{{ form.film.value|default:"" }}"/>
+                </label>
+                
+                <label for="time">
+                    Время:
+                    <ul class="errorlist">
+                    </ul>                    
+                    <div class="input-append bootstrap-timepicker" id="presentation-time">
+                        <input type="text" class="input-small" name="time" placeholder="12:00" />
+                        <span class="add-on">
+                            <i class="icon-time"></i>
+                        </span>
+                    </div>
+                </label>
+
+                <button type="submit" class="btn btn-primary presentation-add">
+                    Добавить
+                </button>
+                <a href="#" class="btn" data-dismiss="modal">Отмена</a>        
+            </fieldset>
+        </form>       
     </div>        
+    <div class="hide modal-body success">
+        <p>Сеанс успешно добавлен!</p>
+    </div>
+    <div class="hide modal-body error">
+        <p>Произошла ошибка при добавлении сеанса!</p>
+    </div>
 </div>
+
 <div class="modal hide fade" id="presentation-delete-dlg">
     <div class="modal-header">
         <h3>Удаление сеанса</h3>
     </div>
-    <div class="modal-body">
-    </div>        
+    <div class="modal-body dialog">
+        <p>Вы уверены, что хотите удалить сеанс?</p>
+        <form class="presentation-delete-form" action="" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="confirmed" value="true" />
+            <button type="submit" class="btn btn-primary">Да</button>
+            <a href="#" class="btn" data-dismiss="modal">Нет</a>
+        </form>        
+    </div>     
+    <div class="hide modal-body success">
+        <p>Сеанс успешно удален!</p>
+    </div>
+    <div class="hide modal-body error">
+        <p>Произошла ошибка при удалении сеанса!</p>
+    </div>           
 </div>
 {% endblock %}

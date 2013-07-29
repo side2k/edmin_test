@@ -94,4 +94,11 @@ $(function(){
         var date = $(".presentations-date input").val();
         window.location = "/cinema/" + CINEMA_ID + "/" + date;
     });
+    
+    $("#presentation-time input").timepicker({
+        'minuteStep': 1,
+        'template': 'modal',
+        'showSeconds': false,
+        'showMeridian': false
+    });    
 });

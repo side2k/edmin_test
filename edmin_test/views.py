@@ -96,38 +96,19 @@ def presentation_add(request, cinema_id, presentations_date):
     if request.method == "POST":
         form = PresentationForm(cinema_id, presentation_date, request.POST)
         if form.is_valid():
-            form.save()
-            return render_to_response('ajax/presentation_add_success.html', {
-                    'cinema_id': cinema_id,
-                    'presentations_date': presentations_date
-                },
-                context_instance=RequestContext(request))
+            instance = form.save()
+            return _success({'id': instance.id})
         else:
-            raise Exception("Form contains errors: %s" % form.errors)
-    else:
-        form = PresentationForm(cinema_id, presentation_date)
-
-    return render_to_response('ajax/presentation_add.html', {
-            'form': form,
-            'cinema_id': cinema_id,
-            'presentations_date': presentations_date
-        },
-        context_instance=RequestContext(request))
+            return _form_errors(form)
+    raise PermissionDenied
 
 def presentation_delete(request, cinema_id, presentations_date, presentation_id):
-    context = {
-        'cinema_id': cinema_id,
-        'presentations_date': presentations_date,
-        'presentation_id': presentation_id
-    }
     if request.method == "POST":
         form = ConfirmationForm(request.POST)
         if form.is_valid() and form.cleaned_data['confirmed']:
             presentation = get_object_or_404(Presentation, id=presentation_id, cinema__id=cinema_id)
             presentation.delete()
-            return render_to_response('ajax/presentation_delete_success.html', 
-                context,
-                context_instance=RequestContext(request))
-    return render_to_response('ajax/presentation_delete.html',
-        context,
-        context_instance=RequestContext(request))     
+            return _success()
+        else:
+            return _form_errors(form)
+    raise PermissionDenied
